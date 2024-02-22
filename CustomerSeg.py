@@ -12,7 +12,7 @@ st.title('Customer Segmentation App')
 st.write('This application takes customer data and segments customers based on their Annual Income.')
 st.write('You can either upload a CSV file or input the data manually.')
 st.set_option('deprecation.showPyplotGlobalUse', False)
-
+st.write('Please ensure that the uploaded CSV file contains the following headers: Gender, Age, Annual Income (k$), Spending Score (1-100)')
 customer_age = st.number_input('Age', min_value=0)
 customer_gender = st.selectbox('Gender', options=['Male', 'Female'])
 Annual_Income = st.number_input('Annual Income (k$)', min_value=0)
@@ -149,7 +149,9 @@ if st.button('Run Clustering'):
         # Check if there are any samples available for clustering
         if len(preprocessed_data) == 0:
             raise ValueError("No samples available for clustering")
-
+        if len(preprocessed_data) < 10:
+            raise ValueError("Insufficient data points for clustering. Minimum 10 data points required.")
+            
         plot_elbow_method(preprocessed_data[['Annual Income (k$)', 'Spending Score (1-100)']])
 
         # Run the clustering algorithm on the preprocessed data
